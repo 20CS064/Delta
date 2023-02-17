@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+    <h1>{{bb_name}}</h1>
+<a href="/donationrequest/{{uniqueID}}">for donation request click here</a><br>
+{% for bc in bcTypelist%}
+
+<h3>
+For category : {{bc}}
+</h3>
+<form method="post" action="{{"post/"+bc.replace(' ','')+'/'+uniqueID}}">
+    {% for bg in bgTypelist%}
+    <label>
+        {{bg}} : 
+    </label>
+    <input type="text" name="{{bg}}" value={{stockdict[bcTypelist.index(bc)][bg+"_quantity"]}}>
+   
+    <br>
+    {%endfor%}
+    <button>update</button>
+</form>
+
+<br>
+
+{% endfor %}
+
+
+</body>
+
+</html>

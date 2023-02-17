@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="module">
+            import { createApp } from 'https://unpkg.com/petite-vue?module'
+            
+    
+          
+            createApp({
+             searchonmount : true,
+             stateselect : '',
+             
+             bglist : {{ bgTypelist|tojson|safe }},
+             bgselect : '',
+             distselect : '',
+             bcselect : '',
+             locationrequired : '',
+             searchresult : null,
+             apiurl : '',
+             latitude : null,
+             longitude : '',
+             lat : null,
+             jsonn : null,
+             locationError : '',
+             errorMessage : '',
+             
+             async search(){
+                
+                   
+                if(!this.distselect){
+                    this.apiurl = ("http://127.0.0.1:5000/api/camp/1/"+encodeURIComponent(this.stateselect))
+                }
+                else{
+                this.apiurl = ("http://127.0.0.1:5000/api/camp/1/"+encodeURIComponent(this.stateselect)+"/"+encodeURIComponent(this.distselect))
+                }
+                var response = await fetch(this.apiurl)
+                this.searchresult = await response.json()
+                  
+    
+                },
+                async searcha(){
+                    if(locationrequired=="Yes"){
+                        await searchSort()
+                    }
+                    else{
+    
+                this.apiurl = ("http://127.0.0.1:5000/api/camp/2/all")
+                var response = await fetch(this.apiurl)
+                this.searchresult = await response.json()
+                    }
+    
+                },
+                async searchSort(){
+                    this.errorMessage = ''
+                    if(!this.bgselect){
+                        this.errorMessage = "Please select a blood group"
+                        return
+                    }
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition((position) => {
+                            this.locationError = '';
+                                   
+                                    this.latitude = position.coords.latitude;
+                                    this.longitude =  position.coords.longitude;
+                                   
+                                    });
+                                    
+                   
+                   
+                   
+                   
+                   
+                                } else { 
+                        this.locationError = "For this function to work location permission is required"
+                            return 
+                        }
+                        while(this.latitude==null){
+                            await new Promise(r => setTimeout(r, 1));
+                        }
+                        this.apiurl = ("http://127.0.0.1:5000/api/drequest/{{uniqueID}}/"+encodeURIComponent(this.latitude)+"/"+encodeURIComponent(this.longitude)+"/"+encodeURIComponent(this.bgselect))
+                                    var response = await fetch(this.apiurl)
+                                    this.searchresult = await response.json()
+                                    errorMessage = "Sending notifications to the nearby users"
+    
+                   
+                          
+    
+                },
+    
+    
+                async makerequest(){
+                    this.apiurl = ("http://127.0.0.1:5000/api/location/"+encodeURIComponent(this.stateselect)+"/"+encodeURIComponent(this.distselect)+"/"+encodeURIComponent(this.latitude)+"/"+encodeURIComponent(this.longitude))
+                                    var response = await fetch(this.apiurl)
+                                    this.searchresult = await response.json()
+                }
+               
+    
+    
+              
+              }).mount()
+    </script>
+    </head><body><div v-scope>
+<!-- {% raw %}-->
+<p>which blood group do you require?</p>
+<select name="grp" class="grp1" v-model="bgselect">
+    <option disabled value = "">please select blood group</option>
+<template v-for="bg in bglist">
+    <option> {{bg}}</option>
+   
+    </template>
+</select>
+
+
+
+
+
+
+
+
+
+<button @click="searchSort">send notification to nearby users</button>
+
+<template v-if="errorMessage">
+    {{errorMessage}}
+</template>
+
+
+
+
+ <!-- {% endraw %}--></div>
+    </body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Stock Availability</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="module">
+        import { createApp } from 'https://unpkg.com/petite-vue?module'
+        
+
+      
+        createApp({
+          
+         stateselect : '',
+         statelist : {{ statelist|tojson|safe }},
+         distlist : {{ distlist|tojson|safe }},
+         distselect : '',
+         bcselect : '',
+         bclist : {{ bclist|tojson|safe }},
+         bgselect : '',
+         bglist : {{ bglist|tojson|safe }},
+         searchresult : null,
+         apiurl : '',
+         errorMessage : '',
+         jsonn : null,
+         
+         async search(){
+             this.errorMessage=''
+             if(!this.stateselect){
+                 this.errorMessage = "Please select a state"
+                 return
+             }
+             if(!this.distselect){
+                this.errorMessage = "Please select a District"
+                 return
+             }
+             if(!this.bgselect){
+                 this.errorMessage = "Please select a Blood Group"
+                 return
+             }
+             if(!this.bcselect){
+                 this.errorMessage = "Please select a valid blood component"
+                 return
+             }
+
+
+
+
+             this.apiurl = ("http://127.0.0.1:5000/api/stock/"+encodeURIComponent(this.bcselect)+"/"+encodeURIComponent(this.stateselect)+"/"+encodeURIComponent(this.distselect)+"/"+encodeURIComponent(this.bgselect))
+             var response = await fetch(this.apiurl)
+             this.searchresult = await response.json()
+             
+
+         }
+
+
+
+          
+          }).mount()
+</script>
+</head>
+<body class="stock">
+    <div v-scope>
+        <!-- {% raw %}-->
+ 
+    <div class="main-menu">
+        <ul>
+            <li class="menu-item">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; <img   style="width: 120%; margin-left: -75px;" src="static/DELTA-removebg-preview.png" alt="delta"></li>
+
+            <a href="index.html"  style="color: black; text-decoration: none;"><li class="menu-item"><i class="fa fa-home fa-2x"></i>&ensp;&ensp; &ensp;&ensp;HOME </li> </a>
+            
+            <a href="service.html" style="color: black; text-decoration: none;"><li class="menu-item"><i class="fa fa-th-large fa-2x"></i> &ensp;&ensp;&ensp;&ensp;SERVICE </li> </a>
+            
+            <a href="about-us.html" style="color: black; text-decoration: none;"><li class="menu-item"><i class="fa fa-users fa-2x"></i>&ensp;&ensp;&ensp; ABOUT US </li> </a>
+            
+            <a href="login.html" style="color: black; text-decoration: none;"><li class="menu-item"><i class="fa fa-user fa-2x"></i>&ensp;&ensp;&ensp;&ensp; LOGIN </li> </a>
+        </ul>
+    </div>
+
+    <div class="donar-logo4">
+
+        <img id="donar-position4" src="static/Blood Stock.png" alt="blood stock">
+
+        <span><h2>Blood Stock Availability</h2></span>
+    </div>
+
+    <span>
+        <div v-scope> 
+            <label class="state1">STATE</label>
+            <select name="states" class="st1" v-model="stateselect">
+                <option disabled value = "">SELECT</option>
+                <template v-for="state in statelist">
+                    <option> {{state}}</option>
+                    
+                    </template>
+
+            </select>
+
+            <label class="district">DISTRICT</label>
+            <select name="district" class="dt1" v-model="distselect">
+                <option disabled value = "">SELECT</option>
+                <template v-for="dist in distlist[statelist.indexOf(stateselect)]">
+                    <option> {{dist}}</option>
+                    
+                    </template>
+
+            </select>
+
+            <label class="grp">BLOOD GROUP</label>
+            <select name="grp" class="grp1" v-model="bgselect">
+                <option disabled value = "">please select blood group</option>
+            <template v-for="bg in bglist">
+                <option> {{bg}}</option>
+                
+                </template>
+            </select>
+
+            <label class="comp">BLOOD COMPONENT</label>
+            <select name="comp" class="comp1" v-model="bcselect">
+                <option disabled value = "">please select blood component</option>
+                <template v-for="bc in bclist">
+                    <option> {{bc}}</option>
+                    
+                    </template>
+
+            </select> 
+            <span></span>
+            <button @click="search" style="  margin-left: 100px;
+            width: 4%;
+            padding: 7px;
+            background: red;
+            color: white;
+            font-size: 17px;
+            border: none;
+            border-left: none;
+            cursor: pointer;
+            margin-right: 100px;
+            margin-top: -300px;"><i class="fa fa-search"></i></button>
+            
+            <template v-if="errorMessage">
+               <br><center> {{errorMessage}}</center>
+            </template>
+            <center>
+            <table width="90%" height="50" border="1" bordercolor=" 5px solid #000000" bgcolor="#FF7F7F">
+                <tr bgcolor="#ff0000">
+                    <td>
+                        Name and Address
+                    </td>
+                    <td>Category</td>
+              <td>Stock</td>
+              <td>Last Updated</td>
+                </tr>
+                <template v-for="result in searchresult.results">
+                    <tr> <td width="50%">
+                        {{result.bb_name}}<br>
+                        {{result.bb_address}}
+                        {{result.bb_contact}}
+                        <br>
+                        <a v-bind:href=result.map_url target="_blank">View it on Google maps</a>
+                        </td>
+                    <td>
+            
+                        {{result.bb_category}}
+                    </td><td>{{bgselect}} : {{result[bgselect+"_quantity"]}}
+                    </td>
+                    <td>{{result.lastupdated}}</td>
+                </tr>
+                
+                </template>
+                </table></center>
+        </span>
+    </span>
+             </div>
+    <!-- {% endraw %}-->
+</body>
+</html>

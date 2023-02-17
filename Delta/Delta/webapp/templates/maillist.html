@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAIL LIST</title>
+    <link rel="stylesheet" href="static/style5.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script type="module">
+        import { createApp } from 'https://unpkg.com/petite-vue?module'
+        
+
+      
+        createApp({
+         searchonmount : true,
+         stateselect : '',
+         statelist : {{ statelist|tojson|safe }},
+         distlist : {{ distlist|tojson|safe }},
+         bglist : {{ bglist|tojson|safe }},
+         distselect : '',
+         bgselect : '',
+         locationrequired : '',
+         searchresult : null,
+         apiurl : '',
+         latitude : null,
+         longitude : '',
+         lat : null,
+         jsonn : null,
+         locationError : '',
+         email : '',
+         errorMessage : '',
+         displayOTP : '',
+         otp : '',
+         eotp : '',
+         
+         async search(){
+            
+            this.errorMessage = ''
+            if(this.eotp==this.otp){
+            this.apiurl = ("http://127.0.0.1:5000/api/adduser/"+encodeURIComponent(this.email)+'/'+encodeURIComponent(this.latitude)+'/'+encodeURIComponent(this.longitude)+'/'+encodeURIComponent(this.bgselect))
+            var response = await fetch(this.apiurl)
+            await new Promise(r => setTimeout(r, 4));
+            window.location.href = "http://127.0.0.1:5000/thankyou";
+            }
+            else{
+                this.errorMessage = "Enter valid otp"
+            }
+
+            },
+            async searcha(){
+                if(locationrequired=="Yes"){
+                    await searchSort()
+                }
+                else{
+
+            this.apiurl = ("http://127.0.0.1:5000/api/camp/2/all")
+            var response = await fetch(this.apiurl)
+            this.searchresult = await response.json()
+                }
+
+            },
+            async searchSort(){
+                this.errorMessage = ''
+                if(!this.bgselect){
+                    this.errorMessage = "Blease select a blood group"
+                    return
+                }
+                if(!this.email || !this.email.includes('@')){
+                    this.errorMessage = "Please enter a email"
+                    return
+                }
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition((position) => {
+                        this.locationError = '';
+                               
+                                this.latitude = position.coords.latitude;
+                                this.longitude =  position.coords.longitude;
+                               
+                                });
+                                
+               
+               
+               
+               
+               
+                            } else { 
+                    this.locationError = "For this function to work location permission is required"
+                        return 
+                    }
+                    while(this.latitude==null){
+                        await new Promise(r => setTimeout(r, 1));
+                    }
+                    this.apiurl = ("http://127.0.0.1:5000/api/otp/"+encodeURIComponent(this.email))
+                                var response = await fetch(this.apiurl)
+                                this.otp = await response.json()
+                                this.displayOTP = "display"
+
+               
+                      
+
+            },
+
+
+            async makerequest(){
+                this.apiurl = ("http://127.0.0.1:5000/api/location/"+encodeURIComponent(this.stateselect)+"/"+encodeURIComponent(this.distselect)+"/"+encodeURIComponent(this.latitude)+"/"+encodeURIComponent(this.longitude))
+                                var response = await fetch(this.apiurl)
+                                this.searchresult = await response.json()
+            }
+           
+
+
+          
+          }).mount()
+</script>
+
+</head>
+    <body class="login">
+        <div class="main-menu">
+            <ul>
+                <li class="menu-item">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; <img   style="width: 120%; margin-left: -75px;" src="static/DELTA-removebg-preview.png" alt="delta"></li>
+    
+                <a href="index.html"  style="color: black; text-decoration: none;"><li class="menu-item"><i class="fa fa-home fa-2x"></i>&ensp;&ensp; &ensp;&ensp;HOME </li> </a>
+                
+                <a href="service.html" style="color: black; text-decoration: none;"><li class="menu-item"><i class="fa fa-th-large fa-2x"></i> &ensp;&ensp;&ensp;&ensp;SERVICE </li> </a>
+                
+                <a href="about-us.html" style="color: black; text-decoration: none;"><li class="menu-item"><i class="fa fa-users fa-2x"></i>&ensp;&ensp;&ensp; ABOUT US </li> </a>
+                
+                <a href="login.html" style="color: black; text-decoration: none;"><li class="menu-item"><i class="fa fa-user fa-2x"></i>&ensp;&ensp;&ensp;&ensp; LOGIN </li> </a>
+            </ul>
+        </div>
+    
+        <span class="logo">
+            <hr>
+    
+            <img src="static/DELTA.png" alt="delta">
+            
+            <hr id="line2">
+        </span>
+    
+<div v-scope>
+    <!-- {% raw %}-->
+<label class="email">EMAIL</label>
+   <input type="text" v-model="email" class="email1">
+
+
+
+
+
+    <label class="o">Blood Group</label>
+    <select v-model="bgselect" class="blood-group">
+        <option disabled value = "">Please Select Blood Group</option>
+        <template v-for="bg in bglist">
+            <option> {{bg}}</option>
+            
+            </template>
+    </select>
+    <button @click="searchSort" class="signup">SIGN UP</button>
+    <center>
+     <template v-if="displayOTP">
+         <label class="email">Enter otp sent to your email address to confirm subscription </label><input type="text" class="email1" v-model="eotp">
+
+         <button @click="search" class="signup">Validate</button>
+     </template>
+
+
+        <template v-if="errorMessage">
+            {{errorMessage}}
+
+        </template> 
+
+</center>
+</div>
+
+ <!-- {% endraw %}-->
+
+</body>
+
+
+
+
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DONAR REQUEST</title>
+    <link rel="stylesheet" href="static/style4.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="request">
+    <div class="main-menu">
+        <ul>
+            <li class="menu-item">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; <img   style="width: 120%; margin-left: -75px;" src="static/DELTA-removebg-preview.png" alt="delta"></li>
+
+            <a href="index.html"  style="color: black; text-decoration: none;"><li class="menu-item"><i class="fa fa-home fa-2x"></i>&ensp;&ensp; &ensp;&ensp;HOME </li> </a>
+            
+            <a href="service.html" style="color: black; text-decoration: none;"><li class="menu-item"><i class="fa fa-th-large fa-2x"></i> &ensp;&ensp;&ensp;&ensp;SERVICE </li> </a>
+            
+            <a href="about-us.html" style="color: black; text-decoration: none;"><li class="menu-item"><i class="fa fa-users fa-2x"></i>&ensp;&ensp;&ensp; ABOUT US </li> </a>
+            
+            <a href="login.html" style="color: black; text-decoration: none;"><li class="menu-item"><i class="fa fa-user fa-2x"></i>&ensp;&ensp;&ensp;&ensp; LOGIN </li> </a>
+        </ul>
+    </div>
+
+    <div class="donar-logo">
+
+        <span><img id="donar-position" src="static/Donate Request.png" alt="donar request"></span>
+
+        <span><h2>Donar Request Details</h2></span>
+    </div>
+
+    <span>
+    <form class="details" method="post" enctype=multipart/form-data>
+         <label class="n"> NAME</label>
+          <input class="name" type="text" name="name" id="_name" required /> 
+
+         
+         
+        
+        <label class="p">PHONE NUMBER</label>
+            <input type="text" name="phone" class="phone1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" minlength="10" maxlength="10" required />
+          
+
+        <label class="o">BLOOD GROUP</label>
+                <select name="blood-group" class="blood-group" required>
+                             <option value="">Choose</option>
+                            {%for bg in bgTypelist%}
+                            <option value="{{bg}}">{{bg}}</option>
+                            {%endfor%}   
+                </select>
+                
+            <label class="email">Email Address</label>
+                <input class="email1" name="email" type="email" required>
+                 
+        <label class="copy">ATTACH PHOTO COPY (aadhar card/ driving licence/ pan card)</label>
+                <input type="file" id="avatar" name="file1" required /> 
+                
+             
+       <label></label><br>
+       <input type="hidden" name="lat" id="lat"><input type="hidden" name="longitude" id="long">
+       <br><label class="copy">Click this button to record your location : </label><button type="button" onclick="getLocation()">Detect my location</button>
+       <br><center> <p id="demo"></p></center>
+       <br>
+            <input type="submit" class="registration"></input>   
+
+       </form>
+       <script>
+        var x = document.getElementById("demo");
+        var latitude= "undefined";
+        var longitude = "undefined";
+        function getLocation(){
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(cordinates)  
+        
+        }
+        else{
+            latitude = "unavailable";
+            longitude = "unavailable";
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+        
+        }
+        function cordinates(position){
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            document.getElementById("lat").value = latitude; 
+            document.getElementById("long").value = longitude; 
+            x.innerHTML = "location recorded successfully.";
+        }
+
+        </script>
+
+
+
+
+
+
+    </span>
+
+</body>
+</html>

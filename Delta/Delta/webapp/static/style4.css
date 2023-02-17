@@ -1,0 +1,188 @@
+*, body{
+    margin:0;
+    padding:0;
+}
+body{
+    background-color: #ebebeb;
+    font-family: 'Roboto Slab', sans-serif;
+    background: #d18f8f;
+}
+
+.main-menu{
+    background-color: rgb(238, 230, 206);
+    box-shadow: 0px 0px 20px #7c1414;
+
+    width: 70px;
+    height: 100vh;
+
+    position: fixed;
+    top:0;
+    left:0;
+    
+    overflow-x: hidden;
+    overflow-y: hidden;
+    white-space: nowrap;
+    
+    transition: .3s ease;
+}
+
+
+.main-menu:hover{
+    width : 250px;
+    overflow-y: scroll;
+}
+
+.main-menu .menu-item{
+    padding: 10px;
+}
+.main-menu .menu-item:hover{
+    background-color: #d6d6d6;
+    cursor: pointer;
+}
+
+.main-menu .menu-item .fa{
+    color: rgb(7, 7, 7);
+    width:40px;
+    font-size: 25px;
+    padding: 10px;
+}
+
+.main-menu .menu-item:hover > .fa{
+    color: #848488;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent !important;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #bbbbbb;
+    border-radius: 10px;
+  }
+
+
+  .logo hr{
+      margin-top: 50px;
+      width: 35%;
+      border: 2px solid black;
+      margin-left: 120px;
+      
+  }
+
+  .logo img{
+      width: 220px;
+      margin-left: 590px;
+      margin-top: -60px;
+  }
+
+     #line2{
+      margin-left: 820px;
+      border: 2px solid black;
+      width: 39%;
+      margin-top: -165px;
+  }
+  #donar-position{
+    width: 170px;
+    margin-left: 520px;
+    margin-top: -5px;
+  }
+
+  .donar-logo h2{
+    margin-left: 690px;
+    margin-top:-9vmax;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    border: 1rem solid #d11212;
+    width: 200px;
+    text-align: center;
+  }
+
+  
+  .n{
+    font-size: 14pt;
+    font-weight: bold;
+    margin-left: 300px;
+    margin-top: 50cm;
+   }
+
+  .name{
+    margin-left: 30px;
+    margin-top: 120px;
+    box-sizing: content-box;
+    width: 20%;
+    height: 6%;
+    border: 2.5px solid black;
+    border-radius: 6px;
+    padding: 15px;    
+    display: inline-block;  
+    border: none;  
+    background: #ffffff; 
+  }
+  .p{
+    font-size: 14pt;
+    font-weight: bold;
+    margin-left: 60px;
+    margin-top: 50cm;
+  }
+  .phone1{
+    margin-left: 20px;
+    margin-top: 90px;
+    border-radius: 6px;
+    padding: 15px 72px;  
+    display: inline-block;  
+    border: none;  
+    background: #ffffff; 
+  }
+  .o{
+    font-size: 14pt;
+    font-weight: bold;
+    margin-left: 300px;
+    margin-top: 50cm;
+  }
+  .blood-group{
+    margin-left: 30px;
+    margin-top: 30px;
+    border-radius: 6px;
+    width: 90px;
+    padding: 15px 120px;  
+    display: inline-block;  
+    border: none;  
+    background: #ffffff; 
+  }
+  .email{
+    font-size: 14pt;
+    font-weight: bold;
+    margin-left: 50px;
+    margin-top: 50cm;
+  }
+  .email1{
+    margin-left: 30px;
+    margin-top: 30px;
+    border-radius: 6px;
+    width: 90px;
+    padding: 15px 120px;  
+    display: inline-block;  
+    border: none;  
+    background: #ffffff; 
+  }
+  .copy{
+    font-size: 14pt;
+    font-weight: bold;
+    margin-left: 290px;
+    margin-top: 50cm;
+  }
+  .registration{
+    margin-top: 60px;
+    margin-left: 600px;
+    background-color: #7e7d75;  
+  color: black; 
+  font-size: 20px;
+  font-weight: bold;
+  padding: 16px 80px;  
+  border: none;
+  cursor: pointer;    
+   
+  } 
